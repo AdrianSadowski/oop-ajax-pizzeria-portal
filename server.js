@@ -1,3 +1,5 @@
+/* global require, process */
+
 const fs = require('fs');
 const path = require('path');
 const jsonServer = require('json-server');
@@ -28,11 +30,11 @@ server.use(function(req, res, next) {
     req.url = api[1] || '/';
   } else {
     req.url = '/front' + req.url;
-
   }
   next();
 });
 
 server.use(middlewares);
 server.use(router);
+
 server.listen(port);
