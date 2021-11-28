@@ -3,14 +3,14 @@ export const select = {
     menuProduct: '#template-menu-product',
     cartProduct: '#template-cart-product',
     bookingWidget: '#template-booking-widget',
-    homeWidget: '#template-home-widget',
+    homePage: '#template-home',
   },
   containerOf: {
     menu: '#product-list',
+    home: '#home-wrapper',
     cart: '#cart',
     pages: '#pages',
-    booking: '.booking-wrapper',
-    home: '.home-wrapper',
+    booking: '.booking-wrapper:last-of-type',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -27,7 +27,7 @@ export const select = {
   },
   widgets: {
     amount: {
-      input: 'input.amount', // CODE CHANGED
+      input: 'input.amount',
       linkDecrease: 'a[href="#less"]',
       linkIncrease: 'a[href="#more"]',
     },
@@ -40,13 +40,15 @@ export const select = {
       input: 'input[type="range"]',
       output: '.output',
     },
-    carousel: '.carousel',
+    carousel: '.main-carousel',
   },
+  // CODE ADDED START
   cart: {
     productList: '.cart__order-summary',
     toggleTrigger: '.cart__summary',
     totalNumber: `.cart__total-number`,
-    totalPrice: '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
+    totalPrice:
+      '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
     subtotalPrice: '.cart__order-subtotal .cart__order-price-sum strong',
     deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
     form: '.cart__order',
@@ -65,17 +67,21 @@ export const select = {
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
     floorPlan: '.floor-plan',
-    table: '.table',
-    bookButton: '.order-confirmation [type="submit"]',
-    phoneNumber: '.order-confirmation [type="tel"]',
-    address: '.order-confirmation [type="text"]',
-    starters: '.checkbox [type="checkbox"]',
+    form: '.booking-form',
+    submit: '.booking-form [type="submit"]',
+    phone: '.booking-form [name="phone"]',
+    address: '.booking-form [name="address"]',
+    starters: '.booking-form [name="starter"]',
+  },
+  home: {
+    banner: '.banner',
+    bannerLinks: 'a.banner',
+    tileLinks: '.inner-tile a',
   },
   nav: {
     links: '.main-nav a',
-    linksStart: '.starter a',
   },
-
+  // CODE ADDED END
 };
 
 export const classNames = {
@@ -83,14 +89,15 @@ export const classNames = {
     wrapperActive: 'active',
     imageVisible: 'active',
   },
+  // CODE ADDED START
   cart: {
     wrapperActive: 'active',
   },
   booking: {
     loading: 'loading',
+    table: 'table',
     tableBooked: 'booked',
     tableSelected: 'selected',
-    table: 'table',
   },
   nav: {
     active: 'active',
@@ -98,29 +105,17 @@ export const classNames = {
   pages: {
     active: 'active',
   },
+  // CODE ADDED END
 };
-
 
 export const settings = {
   amountWidget: {
     defaultValue: 1,
-    defaultMin: 1,
-    defaultMax: 9,
+    defaultMin: 0,
+    defaultMax: 10,
   },
   cart: {
     defaultDeliveryFee: 20,
-  },
-  db: {
-    url: '//localhost:3131/api',
-    products: 'products',
-    orders: 'orders',
-    order: 'order',
-    booking: 'booking',
-    event: 'event',
-    dateStartParamKey: 'date_gte',
-    dateEndParamKey: 'date_lte',
-    notRepeatParam: 'repeat=false',
-    repeatParam: 'repeat_ne=false',
   },
   hours: {
     open: 12,
@@ -132,12 +127,33 @@ export const settings = {
   booking: {
     tableIdAttribute: 'data-table',
   },
+  db: {
+    url:
+      '//' +
+      window.location.hostname +
+      (window.location.hostname == 'localhost' ? ':3131/api' : ''),
+    products: 'products',
+    orders: 'orders',
+    booking: 'bookings',
+    event: 'events',
+    dateStartParamKey: 'date_gte',
+    dateEndParamKey: 'date_lte',
+    notRepeatParam: 'repeat=false',
+    repeatParam: 'repeat_ne=false',
+  },
 };
 
 export const templates = {
-
-  menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
-  cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
-  bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),
-  homeWidget: Handlebars.compile(document.querySelector(select.templateOf.homeWidget).innerHTML),
+  menuProduct: Handlebars.compile(
+    document.querySelector(select.templateOf.menuProduct).innerHTML
+  ),
+  cartProduct: Handlebars.compile(
+    document.querySelector(select.templateOf.cartProduct).innerHTML
+  ),
+  bookingWidget: Handlebars.compile(
+    document.querySelector(select.templateOf.bookingWidget).innerHTML
+  ),
+  homePage: Handlebars.compile(
+    document.querySelector(select.templateOf.homePage).innerHTML
+  ),
 };

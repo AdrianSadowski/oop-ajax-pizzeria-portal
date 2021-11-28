@@ -1,161 +1,123 @@
-import {settings, select, classNames} from './settings.js';
-import Product from './components/Product.js';
-import Cart from './components/Cart.js';
+import { classNames, settings, select } from './settings.js';
 import Booking from './components/Booking.js';
+import Cart from './components/Cart.js';
+import Product from './components/Product.js';
 import Home from './components/Home.js';
 
 const app = {
-  initPages: function() {
+  initPages: function () {
     const thisApp = this;
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
-    thisApp.navLinks = document.querySelectorAll(select.nav.links);
-    //thisApp.navLinksStarter = document.querySelectorAll(select.nav.linksStart);
+    thisApp.links = document.querySelectorAll(
+      select.nav.links + ', ' + select.home.bannerLinks
+    );
 
     const idFromHash = window.location.hash.replace('#/', '');
+    let pageMatchingHash = thisApp.pages[1].id;
 
-
-    let pageMatchningHash = thisApp.pages[0].id;
-
-    for(let page of thisApp.pages){
-      if(page.id == idFromHash){
-        pageMatchningHash = page.id;
+    for (const page of thisApp.pages) {
+      if (page.id == idFromHash) {
+        pageMatchingHash = page.id;
         break;
       }
     }
 
-    thisApp.activatePage(pageMatchningHash);
+    thisApp.activatePage(pageMatchingHash);
 
-    for(let link of thisApp.navLinks){
-      link.addEventListener('click', function(event){
-        const clickedElement = this;
+    for (let link of thisApp.links) {
+      link.addEventListener('click', function (event) {
+        const thisElement = this;
         event.preventDefault();
 
-        /* get attribute id from gref attribure */
-        const id = clickedElement.getAttribute('href').replace('#', '');
+        const id = thisElement.getAttribute('href').replace('#', '');
 
-        /* run thisApp.activatePage with that id */
         thisApp.activatePage(id);
 
         /* change URL hash */
         window.location.hash = '#/' + id;
-
       });
     }
-    
-    // for (let linkStart of thisApp.navLinksStarter) {
-    //   linkStart.addEventListener('click', function(event){
-    //     const clickedElement = this;
-    //     event.preventDefault();
-
-    //     const id = clickedElement.getAttribute('href').replace('#', '');
-
-    //     thisApp.activatePage(id);
-
-    //     window.location.hash = '#/' + id;
-
-    //   });
-    // }
   },
 
-  activatePage: function(pageId) {
+  activatePage: function (pageId) {
     const thisApp = this;
 
-    /* add class "active" to matching pages, remove from non-matching */
-    for(let page of thisApp.pages){
+    /* set active class to activated page and remove from non-activated */
+    for (let page of thisApp.pages) {
       page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
 
-    /* add class "active" to matching links, remove from non-matching */
-    for(let link of thisApp.navLinks){
+    /* set active class to activated link and remove from non-activated */
+    for (let link of thisApp.links) {
       link.classList.toggle(
-        classNames.nav.active, 
-        link.getAttribute('href') ==  '#' + pageId
+        classNames.nav.active,
+        link.getAttribute('href') == '#' + pageId
       );
     }
-
-
-    // /* add class "active" to matching links, remove from non-matching */
-    // for(let linkStart of thisApp.navLinksStarter){
-    //   linkStart.classList.toggle(
-    //     classNames.nav.active, 
-    //     linkStart.getAttribute('href') ==  '#' + pageId
-    //   );
-    // }
   },
 
-  initMenu: function(){
+  initHome: function () {
+    const homeContainer = document.querySelector(select.containerOf.home);
+    new Home(homeContainer);
+  },
+
+  initMenu: function () {
     const thisApp = this;
-    //console.log('thisApp.data:', thisApp.data);
-    for(let productData in thisApp.data.products){
-      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
-      //new Product(productData, thisApp.data.products[productData]);
+
+    for (const productData in thisApp.data.products) {
+      new Product(
+        thisApp.data.products[productData].id,
+        thisApp.data.products[productData]
+      );
     }
   },
 
-  initData: function(){
+  initData: function () {
     const thisApp = this;
-
     thisApp.data = {};
+
     const url = settings.db.url + '/' + settings.db.products;
 
     fetch(url)
-      .then(function(rawResponse){
+      .then(function (rawResponse) {
         return rawResponse.json();
       })
-      .then(function(parsedResponse){
-
-        /* save parsedResponse as thisApp.data.products */
+      .then(function (parsedResponse) {
         thisApp.data.products = parsedResponse;
-
-        /* execute initMenu method */
         thisApp.initMenu();
       });
   },
 
-  initCart: function() {
+  initCart: function () {
     const thisApp = this;
     const cartElem = document.querySelector(select.containerOf.cart);
-    thisApp.cart = new Cart (cartElem);
 
+    thisApp.cart = new Cart(cartElem);
     thisApp.productList = document.querySelector(select.containerOf.menu);
 
     thisApp.productList.addEventListener('add-to-cart', function (event) {
-      app.cart.add(event.detail.product);
+      thisApp.cart.add(event.detail.product);
     });
   },
 
-  initBooking: function() {
-    const thisApp = this;
-
-    const bookingWidget = document.querySelector(select.containerOf.booking);
-    thisApp.booking = new Booking(bookingWidget);
-
-  },
-  initHome: function(){
-    const thisApp = this;
-
-    const homeWidget = document.querySelector(select.containerOf.home);
-    thisApp.home = new Home(homeWidget);
-
+  initBooking: function () {
+    const reservationContainer = document.querySelector(
+      select.containerOf.booking
+    );
+    new Booking(reservationContainer);
   },
 
-  init: function(){
+  init: function () {
     const thisApp = this;
-    //console.log('*** App starting ***');
-    //console.log('thisApp:', thisApp);
-    //console.log('classNames:', classNames);
-    //console.log('settings:', settings);
-    //console.log('templates:', templates);
-    thisApp.initPages();
     thisApp.initData();
-    thisApp.initMenu();
     thisApp.initCart();
-    thisApp.initBooking();
     thisApp.initHome();
-    //console.log('this.initCart:', thisApp.cart);
+    thisApp.initBooking();
+    thisApp.initPages();
   },
-
 };
 
 app.init();
+
+export default app;
