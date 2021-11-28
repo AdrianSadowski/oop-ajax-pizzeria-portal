@@ -15,6 +15,17 @@
     "test-related": "react-scripts test --watchAll=false --noStackTrace --findRelatedTests",
     "eject": "react-scripts eject"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "yarn test-related --",
+      "eslint"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -58,6 +69,7 @@
   },
   "devDependencies": {
     "eslint-watch": "^8.0.0",
+    "husky": "^7.0.2",
     "lint-staged": "^12.1.2",
     "redux-devtools-extension": "^2.13.9"
   }
