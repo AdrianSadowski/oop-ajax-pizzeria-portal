@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -6,9 +6,15 @@ import styles from './PageNav.module.scss';
 
 const PageNav = () => (
   <div className={styles.component}>
-    <Button>
-      <NavLink exact to={`${process.env.PUBLIC_URL}/`} activeClassName='active'>Home</NavLink>
-    </Button>
+    <NavLink exact to={`/`} activeClassName='active'>Home</NavLink>
+
+    <NavLink to={`/login`} activeClassName='active'>Login</NavLink>
+
+    <NavLink to={`/tables`} activeClassName='active'>Tables</NavLink>
+
+    <NavLink to={`/waiter`} activeClassName='active'>Waiter</NavLink>
+    <NavLink to={`/kitchen`} activeClassName='active'>Kitchen</NavLink>
+
   </div>
 );
 
