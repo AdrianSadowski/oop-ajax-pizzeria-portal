@@ -22,11 +22,11 @@
 - `/tables/booking/:id`
   - zawiera wszystkie informacje dotyczące rezerwacji 
   - umożliwia edyzję i zapisanie zmian
-- `/tables/booking/new`
+- `/tables/booking-new`
   - analogicznie do powyższej bez początkowych informacji
 - `/tables/events/:id`
   - analogicznie do powyższej, dla eventów
-- `/tables/events/new`
+- `/tables/events-new`
   - analogicznie do powyższej, dla eventów,  bez początkowych informacji
 
 # Widok kelndera

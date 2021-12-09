@@ -2,4 +2,12 @@
 
 .component {
   padding: $base-size;
+
+  .hour{
+    color:rgb(13, 36, 110);
+  }
+
+  .free{
+    background-color: aqua;
+  }
 }
