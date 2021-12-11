@@ -23,7 +23,7 @@ export const fetchError = payload => ({ payload, type: FETCH_ERROR });
 export const fetchFromAPI = () => {
   return (dispatch, getState) => {
     dispatch(fetchStarted());
-
+  
     Axios
       .get(`${api.url}/api/${api.tables}`)
       .then(res => {
