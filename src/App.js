@@ -4,6 +4,8 @@ import { Switch } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 
 
@@ -14,7 +16,7 @@ import Booking from './components/views/Booking/Booking';
 import BookingNew from './components/views/BookingNew/BookingNew';
 import Events from './components/views/Events/Events';
 import EventsNew from './components/views/EventsNew/EventsNew';
-import Waiter from './components/views/Waiter/Waiter';
+import WaiterContainer from './components/views/Waiter/WaiterContainer';
 import Order from './components/views/Order/Order';
 import OrderNew from './components/views/OrderNew/OrderNew';
 import Kitchen from './components/views/Kitchen/Kitchen';
@@ -32,27 +34,29 @@ const theme = createTheme({
 
 function App() {
   return (
-    <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <MainLayout>
-            <Switch>
-              <Route exact path={`/`} component={Homepage} />
-              <Route exact path={`/login`} component={Login} />
-              <Route exact path={`/tables`} component={Tables} />
-              <Route exact path={`/tables/booking/:id`} component={Booking} />
-              <Route exact path={`/tables/booking-new`} component={BookingNew} />
-              <Route exact path={`/tables/events/:id`} component={Events} />
-              <Route exact path={`/tables/events-new`} component={EventsNew} />
-              <Route exact path={`/waiter`} component={Waiter} />
-              <Route exact path={`/waiter/order/:id`} component={Order} />
-              <Route exact path={`/waiter/order-new`} component={OrderNew} />
-              <Route exact path={`/kitchen`} component={Kitchen} />
-            </Switch>
-          </MainLayout>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MainLayout>
+              <Switch>
+                <Route exact path={`/`} component={Homepage} />
+                <Route exact path={`/login`} component={Login} />
+                <Route exact path={`/tables`} component={Tables} />
+                <Route exact path={`/tables/booking/:id`} component={Booking} />
+                <Route exact path={`/tables/booking-new`} component={BookingNew} />
+                <Route exact path={`/tables/events/:id`} component={Events} />
+                <Route exact path={`/tables/events-new`} component={EventsNew} />
+                <Route exact path={`/waiter`} component={WaiterContainer} />
+                <Route exact path={`/waiter/order/:id`} component={Order} />
+                <Route exact path={`/waiter/order-new`} component={OrderNew} />
+                <Route exact path={`/kitchen`} component={Kitchen} />
+              </Switch>
+            </MainLayout>
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
