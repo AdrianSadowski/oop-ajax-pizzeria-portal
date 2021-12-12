@@ -5,8 +5,8 @@ export const api = {
   order: 'order',
   booking: 'booking',
   event: 'event',
-  dataStartParamKey: 'date_gte',
-  dateEndParamkey: 'date_lte',
-  notRepearParam: 'repeat=false',
+  dateStartParamKey: 'date_gte',
+  dateEndParamKey: 'date_lte',
+  notRepeatParam: 'repeat=false',
   repeatParam: 'repeat_ne=false',
 };
